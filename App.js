@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { View, StyleSheet, StatusBar } from "react-native";
+import BottomNavBar from "./components/navBarMap.js";
+import AcademiaScreen from "./components/AcademiaScreen.js";
+import PracasScreen from "./components/PracasScreen.js";
 
-export default function App() {
+const App = () => {
+  const [activeTab, setActiveTab] = useState("Academia");
+
+  const handleTabPress = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <StatusBar barStyle="dark-content" backgroundColor="#6a51ae" />
+      <BottomNavBar onTabPress={handleTabPress} />
+      {activeTab === "Academia" ? <AcademiaScreen /> : <PracasScreen />}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
   },
 });
+
+export default App;
