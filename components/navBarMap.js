@@ -5,13 +5,13 @@ const BottomNavBar = ({ onTabPress }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.tabButton}
+        style={styles.tabButtonAcademia}
         onPress={() => onTabPress("Academia")}
       >
         <Text style={styles.tabText}>Academias</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.tabButton}
+        style={styles.tabButtonPraca}
         onPress={() => onTabPress("Pracas")}
       >
         <Text style={styles.tabText}>Praças</Text>
@@ -26,20 +26,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#141d22",
     borderBottomWidth: 1,
-    borderTopColor: "#ddd",
+    borderBottomColor: "#141d22",
     paddingVertical: 10,
     paddingBottom: 20,
   },
-  tabButton: {
+  tabButtonAcademia: {
     flex: 1,
     alignItems: "center",
+    borderRightWidth: 1,
+    borderRightColor: "#fff",
+  },
+  tabButtonPraca: {
+    flex: 1,
+    alignItems: "center",
+    borderLeftWidth: 1,
+    borderLeftColor: "#fff",
   },
   tabText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#555",
+    color: "white",
   },
 });
 

@@ -34,16 +34,14 @@ const PracasScreen = () => {
   }, []);
 
   useEffect(() => {
-    // Simular o carregamento dos dados por um breve período
     setTimeout(() => {
       setDataLoading(false);
-      setPracas(pracasData.records); // Definir os dados das praças
+      setPracas(pracasData.records);
     }, 2000);
   }, []);
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#6a51ae" />
       {locationLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />

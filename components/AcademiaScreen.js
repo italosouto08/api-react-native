@@ -34,16 +34,14 @@ const AcademiaScreen = () => {
   }, []);
 
   useEffect(() => {
-    // Simular o carregamento dos dados por um breve período
     setTimeout(() => {
       setDataLoading(false);
-      setAcademias(academiasData.records); // Definir os dados das academias
+      setAcademias(academiasData.records);
     }, 2000);
   }, []);
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#6a51ae" />
       {locationLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
@@ -73,11 +71,11 @@ const AcademiaScreen = () => {
                   <Marker
                     key={index}
                     coordinate={{
-                      latitude: parseFloat(academia[7]), // Latitude está na posição 7
-                      longitude: parseFloat(academia[8]), // Longitude está na posição 8
+                      latitude: parseFloat(academia[7]),
+                      longitude: parseFloat(academia[8]),
                     }}
-                    title={academia[1]} // Nome está na posição 1
-                    description={academia[4]} // Bairro está na posição 4
+                    title={academia[1]}
+                    description={academia[4]}
                     pinColor="blue"
                   />
                 ))}

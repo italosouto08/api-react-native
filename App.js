@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#6a51ae" />
+      <StatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <BottomNavBar onTabPress={handleTabPress} />
       {activeTab === "Academia" ? <AcademiaScreen /> : <PracasScreen />}
     </View>
@@ -23,7 +23,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#141d22",
   },
 });
 
