@@ -1,30 +1,42 @@
-import React, { useState } from "react";
-import { View, StyleSheet, StatusBar } from "react-native";
-import BottomNavBar from "./components/navBarMap.js";
-import AcademiaScreen from "./components/AcademiaScreen.js";
-import PracasScreen from "./components/PracasScreen.js";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import Map from "./src/app/map/index";
+import SettingsScreen from "./src/app/home/index";
+import Main from "./src/app/home/index";
+import { RegisterPage1 } from "./src/app/register/registerPage1";
+import { RegisterPage2 } from "./src/app/register/registerPage2";
+import Calendar from "./src/app/calendar/index";
 
-const App = () => {
-  const [activeTab, setActiveTab] = useState("Academia");
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-  const handleTabPress = (tab) => {
-    setActiveTab(tab);
-  };
-
+const RegisterStack = () => {
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#6a51ae" />
-      <BottomNavBar onTabPress={handleTabPress} />
-      {activeTab === "Academia" ? <AcademiaScreen /> : <PracasScreen />}
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Dados pessoais"
+        component={RegisterPage1}
+        options={{ title: "Dados Pessoais" }}
+      />
+      <Stack.Screen
+        name="RegisterPage2"
+        component={RegisterPage2}
+        options={{ title: "Dados Fisicos" }}
+      />
+    </Stack.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#141d22",
-  },
-});
-
-export default App;
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="Map" component={Map} />
+        <Tab.Screen name="Calendar" component={Calendar} />
+        <Tab.Screen name="Register" component={RegisterStack} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
