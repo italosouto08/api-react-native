@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import axios from "axios";
 
 const Stack = createStackNavigator();
 
@@ -17,10 +18,23 @@ const RegisterPage2 = ({ navigation }) => {
 
   const etapa = 2;
 
-  const handleProximo = () => {
+  const handleProximo = async () => {
     if (altura && peso) {
-      alert("Cadastrado com sucesso!");
-      navigation.navigate("HomeScreen");
+      try {
+        const userId = navigation.getParam("userId");
+        await axios.post(
+          `http://192.168.1.9/api/users/register/step2/${userId}`,
+          {
+            altura,
+            peso,
+            praticaAtividadeFisica,
+          }
+        );
+        alert("Cadastrado com sucesso!");
+        navigation.navigate("Main");
+      } catch (error) {
+        alert("Erro ao completar cadastro: " + error.message);
+      }
     } else {
       alert("Preencha todos os campos!");
     }

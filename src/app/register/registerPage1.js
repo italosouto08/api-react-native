@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import axios from "axios";
 
 const Stack = createStackNavigator();
 
@@ -18,9 +19,24 @@ const RegisterPage1 = ({ navigation }) => {
   const [telefone, setTelefone] = useState("");
   const etapa = 1;
 
-  const handleProximo = () => {
+  const handleProximo = async () => {
     if (nome && idade && email) {
-      navigation.navigate("RegisterPage2");
+      try {
+        const response = await axios.post(
+          "http://192.168.1.9/api/users/register/step1",
+          {
+            nome,
+            idade,
+            email,
+            senha,
+            telefone,
+          }
+        );
+        console.log(response.data);
+        navigation.navigate("RegisterPage2", { userId: response.data._id });
+      } catch (error) {
+        alert("Erro ao cadastrar usuário: " + error.message);
+      }
     } else {
       alert("Preencha todos os campos!");
     }

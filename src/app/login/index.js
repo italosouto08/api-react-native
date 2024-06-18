@@ -10,23 +10,19 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 
-// Componente da tela de login
 const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   const handleLogin = () => {
-    // Lógica de autenticação
     if (email && senha) {
-      // Navegar para a página principal ou dashboard após login bem-sucedido
-      alert("Login realizado com sucesso!");
+      navigation.navigate("Main");
     } else {
       alert("Preencha todos os campos!");
     }
   };
 
   const handleRegister = () => {
-    // Navegar para a página de registro
     navigation.navigate("RegisterPage1");
   };
 
@@ -34,20 +30,27 @@ const LoginPage = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.minibackground}>
         <Text style={styles.pageInfo}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
-          secureTextEntry={true}
-        />
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email:</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            keyboardType="email-address"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Senha:</Text>
+          <TextInput
+            style={styles.input}
+            value={senha}
+            onChangeText={(text) => setSenha(text)}
+            secureTextEntry={true}
+          />
+        </View>
+
         <TouchableOpacity style={styles.btn} onPress={handleLogin}>
           <Text style={{ color: "white" }}>Login</Text>
         </TouchableOpacity>
@@ -59,7 +62,6 @@ const LoginPage = ({ navigation }) => {
   );
 };
 
-// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -80,11 +82,19 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     textAlign: "center",
   },
+  inputContainer: {
+    marginBottom: 15,
+  },
+  label: {
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#141d22",
+  },
   input: {
     height: 40,
     borderColor: "#141d22",
     borderWidth: 1,
-    marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
   },
