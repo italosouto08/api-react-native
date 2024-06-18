@@ -60,25 +60,15 @@ const Calendar = () => {
     const currMonth = date.getMonth();
     const firstDayOfMonth = new Date(currYear, currMonth, 1).getDay();
     const lastDateOfMonth = new Date(currYear, currMonth + 1, 0).getDate();
-    const lastDayOfMonth = new Date(
-      currYear,
-      currMonth,
-      lastDateOfMonth
-    ).getDay();
-    const lastDateOfLastMonth = new Date(currYear, currMonth, 0).getDate();
 
     const days = [];
 
-    for (let i = firstDayOfMonth; i > 0; i--) {
-      days.push({ day: lastDateOfLastMonth - i + 1, inactive: true });
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      days.push({ day: null, inactive: true });
     }
 
     for (let i = 1; i <= lastDateOfMonth; i++) {
       days.push({ day: i, inactive: false });
-    }
-
-    for (let i = lastDayOfMonth; i < 6; i++) {
-      days.push({ day: i - lastDayOfMonth + 1, inactive: true });
     }
 
     return days;
@@ -93,7 +83,7 @@ const Calendar = () => {
   const currentYear = today.getFullYear();
 
   const handleDayPress = (day) => {
-    if (!days.find((d) => d.day === day && !d.inactive)) {
+    if (day === null) {
       return;
     }
     setSelectedDay(day);
@@ -106,10 +96,7 @@ const Calendar = () => {
       const key = `${currYear}-${currMonth + 1}-${selectedDay}`;
       const newActivities = {
         ...activities,
-        [`${currYear}-${currMonth + 1}`]: {
-          ...activities[`${currYear}-${currMonth + 1}-${selectedDay}`],
-          [key]: status === "no" ? null : { status, color },
-        },
+        [key]: status === "no" ? null : { status, color },
       };
       saveActivities(newActivities);
     }
@@ -158,18 +145,26 @@ const Calendar = () => {
                   currYear === currentYear && {
                     backgroundColor: "#efefef",
                   },
-                activities[`${currYear}-${currMonth + 1}`]?.[
-                  `${currYear}-${currMonth + 1}-${item.day}`
-                ]?.status === "yes" && {
+                activities[`${currYear}-${currMonth + 1}-${item.day}`]
+                  ?.status === "yes" && {
                   backgroundColor:
-                    activities[`${currYear}-${currMonth + 1}`]?.[
-                      `${currYear}-${currMonth + 1}-${item.day}`
-                    ]?.color,
+                    activities[`${currYear}-${currMonth + 1}-${item.day}`]
+                      ?.color,
                 },
               ]}
-              onPress={() => !item.inactive && handleDayPress(item.day)}
+              onPress={() => handleDayPress(item.day)}
             >
-              <Text style={styles.dayText}>{item.day}</Text>
+              {item.day !== null && (
+                <Text
+                  style={[
+                    styles.dayText,
+                    activities[`${currYear}-${currMonth + 1}-${item.day}`]
+                      ?.status === "yes" && { color: "#fff" },
+                  ]}
+                >
+                  {item.day}
+                </Text>
+              )}
             </TouchableOpacity>
           )}
         />
@@ -236,7 +231,7 @@ const styles = StyleSheet.create({
   },
   weeks: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
   },
   weekText: {
     color: "#141d22",
@@ -248,7 +243,7 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: "center",
     alignItems: "center",
-    margin: 7,
+    margin: 7.5,
     borderRadius: 15,
   },
   inactiveDay: {

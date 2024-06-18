@@ -10,6 +10,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 
+// Componente da tela de login
 const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -25,7 +26,8 @@ const LoginPage = ({ navigation }) => {
   };
 
   const handleRegister = () => {
-    navigation.navigate("Dados pessoais");
+    // Navegar para a página de registro
+    navigation.navigate("RegisterPage1");
   };
 
   return (
@@ -57,6 +59,7 @@ const LoginPage = ({ navigation }) => {
   );
 };
 
+// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -102,28 +105,3 @@ const styles = StyleSheet.create({
 });
 
 export { LoginPage };
-
-// Navegação principal
-const AppNavigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={LoginPage}
-        options={{ title: "Login" }}
-      />
-      <Stack.Screen
-        name="Dados pessoais"
-        component={RegisterPage1}
-        options={{ title: "Cadastre-se" }}
-      />
-      <Stack.Screen
-        name="RegisterPage2"
-        component={RegisterPage2}
-        options={{ title: "Informações Adicionais" }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-export default AppNavigator;

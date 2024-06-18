@@ -37,42 +37,57 @@ const RegisterPage1 = ({ navigation }) => {
             <Text style={styles.pageNumber}>Página {etapa} de 2</Text>
           </View>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Nome"
-          value={nome}
-          onChangeText={(text) => setNome(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Idade"
-          value={idade}
-          onChangeText={(text) => setIdade(text)}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
-          secureTextEntry={true}
-          keyboardType="default"
-        />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Telefone"
-          value={telefone}
-          onChangeText={(text) => setTelefone(text)}
-          keyboardType="numeric"
-        />
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Nome:</Text>
+          <TextInput
+            style={styles.input}
+            value={nome}
+            onChangeText={(text) => setNome(text)}
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Idade:</Text>
+          <TextInput
+            style={styles.input}
+            value={idade}
+            onChangeText={(text) => setIdade(text)}
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email:</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            keyboardType="email-address"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Senha:</Text>
+          <TextInput
+            style={styles.input}
+            value={senha}
+            onChangeText={(text) => setSenha(text)}
+            secureTextEntry={true}
+            keyboardType="default"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Telefone:</Text>
+          <TextInput
+            style={styles.input}
+            value={telefone}
+            onChangeText={(text) => setTelefone(text)}
+            keyboardType="numeric"
+          />
+        </View>
+
         <TouchableOpacity style={styles.btn} onPress={handleProximo}>
           <Text style={{ color: "white" }}>Próximo</Text>
         </TouchableOpacity>
@@ -114,11 +129,18 @@ const styles = StyleSheet.create({
   pageNumber: {
     fontSize: 16,
   },
+  inputContainer: {
+    marginBottom: 15,
+  },
+  label: {
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   input: {
     height: 40,
     borderColor: "#141d22",
     borderWidth: 1,
-    marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
   },
@@ -127,6 +149,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
+    marginTop: 30,
   },
   activityButton: {
     borderWidth: 1,

@@ -17,16 +17,17 @@ const RegisterPage2 = ({ navigation }) => {
 
   const etapa = 2;
 
-  const handleVoltar = () => {
-    navigation.goBack();
-  };
-
   const handleProximo = () => {
-    if (cpf && telefone) {
-      alert("Formulário enviado com sucesso!");
+    if (altura && peso) {
+      alert("Cadastrado com sucesso!");
+      navigation.navigate("HomeScreen");
     } else {
       alert("Preencha todos os campos!");
     }
+  };
+
+  const handleVoltar = () => {
+    navigation.goBack();
   };
 
   return (
@@ -40,20 +41,27 @@ const RegisterPage2 = ({ navigation }) => {
             <Text style={styles.pageNumber}>Página {etapa} de 2</Text>
           </View>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Altura (cm)"
-          value={altura}
-          onChangeText={(text) => setAltura(text)}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Peso (kg)"
-          value={peso}
-          onChangeText={(text) => setPeso(text)}
-          keyboardType="numeric"
-        />
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Altura (cm)</Text>
+          <TextInput
+            style={styles.input}
+            value={altura}
+            onChangeText={(text) => setAltura(text)}
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Peso (kg)</Text>
+          <TextInput
+            style={styles.input}
+            value={peso}
+            onChangeText={(text) => setPeso(text)}
+            keyboardType="numeric"
+          />
+        </View>
+
         <View style={styles.activity}>
           <Text style={styles.activityText}>Pratica atividade física?</Text>
           <TouchableOpacity
@@ -74,14 +82,24 @@ const RegisterPage2 = ({ navigation }) => {
             ]}
             onPress={() => setPraticaAtividadeFisica(false)}
           >
-            <Text style={{ color: !praticaAtividadeFisica ? "white" : "blue" }}>
+            <Text
+              style={{ color: !praticaAtividadeFisica ? "white" : "black" }}
+            >
               Não
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.btn} onPress={handleProximo}>
-          <Text style={{ color: "white" }}>Cadastrar</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.btn, styles.btnSecondary]}
+            onPress={handleVoltar}
+          >
+            <Text style={{ color: "white" }}>Voltar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={handleProximo}>
+            <Text style={{ color: "white" }}>Cadastrar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -120,11 +138,18 @@ const styles = StyleSheet.create({
   pageNumber: {
     fontSize: 16,
   },
+  inputContainer: {
+    marginBottom: 15,
+  },
+  label: {
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   input: {
     height: 40,
     borderColor: "#141d22",
     borderWidth: 1,
-    marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
   },
@@ -133,6 +158,17 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
+    marginTop: 30,
+    width: "45%", // Ajuste de largura para os botões
+  },
+  btnSecondary: {
+    backgroundColor: "#3a506b",
+    marginRight: 10, // Espaço entre os botões
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
   },
   activityButton: {
     borderWidth: 1,
