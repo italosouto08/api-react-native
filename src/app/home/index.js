@@ -1,13 +1,61 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import moment from "moment";
 import "moment/locale/pt-br";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   moment.locale("pt-br");
 
   const currentDate = moment().format("dddd, D [de] MMMM");
+
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { userId } = route.params;
+
+  const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `http://192.168.1.9:8000/api/users/${userId}`
+        );
+        const user = await response.json();
+        setUserName(user.nome);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
+  const handleIconClick = () => {
+    navigation.navigate("EditPage", {
+      userId: userId,
+      nome: userName,
+    });
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -16,10 +64,12 @@ const HomeScreen = () => {
           <View style={styles.cardBody}>
             <View style={styles.person}>
               <View style={styles.greeting}>
-                <Text style={styles.h3}>Olá, Onurb!</Text>
+                <Text style={styles.h3}>Olá, {userName}!</Text>
                 <Text style={styles.h4}>Esta semana</Text>
               </View>
-              <FontAwesome5 name="user-circle" size={50} color="white" />
+              <TouchableOpacity onPress={handleIconClick}>
+                <FontAwesome5 name="user-circle" size={50} color="white" />
+              </TouchableOpacity>
             </View>
             <View style={styles.row}>
               <View style={styles.quadradoContainer}>
@@ -212,6 +262,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     width: "100%",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#141d22",
   },
 });
 

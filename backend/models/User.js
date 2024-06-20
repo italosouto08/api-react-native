@@ -11,4 +11,4 @@ const UserSchema = new mongoose.Schema({
   praticaAtividadeFisica: { type: Boolean },
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("users", UserSchema);

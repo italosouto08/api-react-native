@@ -11,7 +11,8 @@ import axios from "axios";
 
 const Stack = createStackNavigator();
 
-const RegisterPage2 = ({ navigation }) => {
+const RegisterPage2 = ({ route, navigation }) => {
+  const { userId, nome } = route.params;
   const [altura, setAltura] = useState("");
   const [peso, setPeso] = useState("");
   const [praticaAtividadeFisica, setPraticaAtividadeFisica] = useState(false);
@@ -21,9 +22,8 @@ const RegisterPage2 = ({ navigation }) => {
   const handleProximo = async () => {
     if (altura && peso) {
       try {
-        const userId = navigation.getParam("userId");
         await axios.post(
-          `http://192.168.1.9/api/users/register/step2/${userId}`,
+          `http://192.168.1.9:8000/api/users/register/step2/${userId}`,
           {
             altura,
             peso,
@@ -31,7 +31,7 @@ const RegisterPage2 = ({ navigation }) => {
           }
         );
         alert("Cadastrado com sucesso!");
-        navigation.navigate("Main");
+        navigation.navigate("Main", { nome: nome, userId: userId });
       } catch (error) {
         alert("Erro ao completar cadastro: " + error.message);
       }
@@ -173,11 +173,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     marginTop: 30,
-    width: "45%", // Ajuste de largura para os botões
+    width: "45%",
   },
   btnSecondary: {
     backgroundColor: "#3a506b",
-    marginRight: 10, // Espaço entre os botões
+    marginRight: 10,
   },
   buttonContainer: {
     flexDirection: "row",

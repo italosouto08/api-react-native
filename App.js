@@ -10,33 +10,39 @@ import { RegisterPage1 } from "./src/app/register/registerPage1";
 import { RegisterPage2 } from "./src/app/register/registerPage2";
 import Calendar from "./src/app/calendar/index";
 import { LoginPage } from "./src/app/login/index";
+import { EditPage } from "./src/app/edit/index";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const RegisterStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name="RegisterPage1"
-        component={RegisterPage1}
-        options={{ title: "Dados Pessoais" }}
-      />
-      <Stack.Screen
-        name="RegisterPage2"
-        component={RegisterPage2}
-        options={{ title: "Dados Fisicos" }}
-      />
-    </Stack.Navigator>
-  );
-};
+const RegisterStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen
+      name="LoginPage"
+      component={LoginPage}
+      options={{ title: "Login" }}
+    />
+    <Stack.Screen
+      name="RegisterPage1"
+      component={RegisterPage1}
+      options={{ title: "Dados Pessoais" }}
+    />
+    <Stack.Screen
+      name="RegisterPage2"
+      component={RegisterPage2}
+      options={{ title: "Dados Fisicos" }}
+    />
+  </Stack.Navigator>
+);
 
-const HomeStack = () => {
+const HomeStack = ({ route }) => {
+  const { userId, nome } = route.params || {};
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
+        initialParams={{ userId, nome }}
         options={{ title: "Home" }}
       />
       <Stack.Screen
@@ -44,11 +50,17 @@ const HomeStack = () => {
         component={RegisterStack}
         options={{ title: "Cadastro" }}
       />
+      <Stack.Screen
+        name="EditPage"
+        component={EditPage}
+        options={{ title: "Editar Dados" }}
+      />
     </Stack.Navigator>
   );
 };
 
-const TabNavigator = () => {
+const TabNavigator = ({ route }) => {
+  const { userId, nome } = route.params || {};
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -68,7 +80,11 @@ const TabNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        initialParams={{ userId, nome }}
+      />
       <Tab.Screen name="Map" component={Map} />
       <Tab.Screen name="Calendar" component={Calendar} />
     </Tab.Navigator>

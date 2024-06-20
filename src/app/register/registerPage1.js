@@ -20,10 +20,17 @@ const RegisterPage1 = ({ navigation }) => {
   const etapa = 1;
 
   const handleProximo = async () => {
-    if (nome && idade && email) {
+    if (nome && idade && email && senha && telefone) {
       try {
+        console.log("Sending data to server:", {
+          nome,
+          idade,
+          email,
+          senha,
+          telefone,
+        });
         const response = await axios.post(
-          "http://192.168.1.9/api/users/register/step1",
+          "http://192.168.1.9:8000/api/users/register/step1",
           {
             nome,
             idade,
@@ -32,8 +39,10 @@ const RegisterPage1 = ({ navigation }) => {
             telefone,
           }
         );
-        console.log(response.data);
-        navigation.navigate("RegisterPage2", { userId: response.data._id });
+        navigation.navigate("RegisterPage2", {
+          userId: response.data._id,
+          nome: nome,
+        });
       } catch (error) {
         alert("Erro ao cadastrar usuário: " + error.message);
       }

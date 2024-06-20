@@ -1,38 +1,33 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const userRoutes = require("./routes/userRoutes");
+const dotenv = require("dotenv");
 
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
-
-// Middleware
 app.use(bodyParser.json());
 
-// Connect to MongoDB
 mongoose
-  .connect("mongodb://127.0.0.1:27017/FitBuddy", {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
     console.log("Connected to MongoDB");
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
   })
   .catch((err) => {
     console.error("Error connecting to MongoDB", err);
   });
 
-// Import routes
-const userRoutes = require("./routes/userRoutes");
-
-// Use routes
 app.use("/api/users", userRoutes);
 
-// Define a simple route
 app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-// Listen on the specified port
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  res.status(200).json({
+    msg: "Welcome to FitBuddy API.",
+  });
 });

@@ -71,11 +71,11 @@ const PracasScreen = () => {
                   <Marker
                     key={index}
                     coordinate={{
-                      latitude: parseFloat(praca[11]), // Latitude está na posição 11
-                      longitude: parseFloat(praca[12]), // Longitude está na posição 12
+                      latitude: parseFloat(praca[11]),
+                      longitude: parseFloat(praca[12]),
                     }}
-                    title={praca[1]} // Nome está na posição 1
-                    description={praca[10]} // Bairro está na posição 10
+                    title={praca[1]}
+                    description={praca[10]}
                     pinColor="green"
                   />
                 ))}
