@@ -6,11 +6,13 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  Modal,
+  TouchableHighlight,
 } from "react-native";
 import api from "./api";
 
 const EditPage = ({ route, navigation }) => {
-  const { userId, nome } = route.params;
+  const { userId } = route.params;
   const [userData, setUserData] = useState({
     nome: "",
     idade: "",
@@ -20,6 +22,7 @@ const EditPage = ({ route, navigation }) => {
     peso: "",
     praticaAtividadeFisica: false,
   });
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -67,6 +70,10 @@ const EditPage = ({ route, navigation }) => {
   };
 
   const handleDelete = async () => {
+    setModalVisible(true);
+  };
+
+  const handleConfirmDelete = async () => {
     try {
       await api.delete(`/users/${userId}`);
       alert("Excluído com sucesso!");
@@ -78,6 +85,7 @@ const EditPage = ({ route, navigation }) => {
         : error.message;
       alert("Erro ao excluir: " + errorMessage);
     }
+    setModalVisible(false);
   };
 
   return (
@@ -194,6 +202,7 @@ const EditPage = ({ route, navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.btn, styles.btnSecondary]}
@@ -201,14 +210,47 @@ const EditPage = ({ route, navigation }) => {
             >
               <Text style={{ color: "white" }}>Excluir</Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.buttonContainer}>
+
             <TouchableOpacity style={styles.btn} onPress={handleUpdate}>
               <Text style={{ color: "white" }}>Salvar</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Deseja excluir este usuário?</Text>
+            <View style={styles.modalButtons}>
+              <TouchableHighlight
+                style={{ ...styles.modalButton, backgroundColor: "#3a506b" }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  handleConfirmDelete();
+                }}
+              >
+                <Text style={styles.textStyle}>Confirmar</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={{ ...styles.modalButton, backgroundColor: "#141d22" }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text style={styles.textStyle}>Cancelar</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -271,7 +313,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     width: "100%",
   },
   activityButton: {
@@ -292,6 +334,43 @@ const styles = StyleSheet.create({
   },
   activityText: {
     marginRight: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 35,
+    alignItems: "center",
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 18,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 10,
+  },
+  modalButton: {
+    borderRadius: 5,
+    padding: 10,
+    elevation: 2,
+    width: "45%",
+    alignItems: "center",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
