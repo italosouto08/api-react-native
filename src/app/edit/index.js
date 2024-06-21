@@ -94,7 +94,7 @@ const EditPage = ({ route, navigation }) => {
         <View style={styles.minibackground}>
           <View style={styles.navControl}>
             <View style={styles.navInfo}>
-              <Text style={styles.pageInfo}>Editar dados físicos</Text>
+              <Text style={styles.pageInfo}>Editar dados</Text>
             </View>
           </View>
 
