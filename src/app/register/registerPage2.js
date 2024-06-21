@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import axios from "axios";
+import api from "../api";
 
 const Stack = createStackNavigator();
 
@@ -22,14 +23,12 @@ const RegisterPage2 = ({ route, navigation }) => {
   const handleProximo = async () => {
     if (altura && peso) {
       try {
-        await axios.post(
-          `http://192.168.1.9:8000/api/users/register/step2/${userId}`,
-          {
-            altura,
-            peso,
-            praticaAtividadeFisica,
-          }
-        );
+        await api.post(`/users/register/step2/${userId}`, {
+          altura,
+          peso,
+          praticaAtividadeFisica,
+        });
+
         alert("Cadastrado com sucesso!");
         navigation.navigate("Main", { nome: nome, userId: userId });
       } catch (error) {

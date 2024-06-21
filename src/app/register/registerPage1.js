@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import axios from "axios";
+import api from "../api";
 
 const Stack = createStackNavigator();
 
@@ -29,16 +30,15 @@ const RegisterPage1 = ({ navigation }) => {
           senha,
           telefone,
         });
-        const response = await axios.post(
-          "http://192.168.1.9:8000/api/users/register/step1",
-          {
-            nome,
-            idade,
-            email,
-            senha,
-            telefone,
-          }
-        );
+
+        const response = await api.post("/users/register/step1", {
+          nome,
+          idade,
+          email,
+          senha,
+          telefone,
+        });
+
         navigation.navigate("RegisterPage2", {
           userId: response.data._id,
           nome: nome,

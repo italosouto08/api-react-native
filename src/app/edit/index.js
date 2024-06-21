@@ -9,7 +9,7 @@ import {
   Modal,
   TouchableHighlight,
 } from "react-native";
-import api from "./api";
+import api from "../api";
 
 const EditPage = ({ route, navigation }) => {
   const { userId } = route.params;
